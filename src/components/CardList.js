@@ -1,16 +1,20 @@
 import React from "react";
 import { StyleSheet, FlatList, ScrollView, View, Text, TouchableOpacity } from "react-native";
 import { connect } from "react-redux";
+import { bindActionCreators } from 'redux';
 import FlippingCard from "./FlippingCard";
-import { setCards } from "../redux/actions";
+import { fetchCards } from "../redux/actions";
 
 const mapStateToProps = state => {
     return { cards: state.cards };
 }
 
-const mapDispatchToProps = dispatch => {
-    return { setCards: cards => dispatch(setCards(cards))};
-}
+const mapDispatchToProps = dispatch => bindActionCreators (
+    {
+        fetchCards: fetchCards
+    },
+    dispatch
+)
 
 class List extends React.Component {
     
@@ -18,6 +22,10 @@ class List extends React.Component {
         super(props);
         this.onCreatePress = this.onCreatePress.bind(this);
         this.goToAddOrEdit = this.goToAddOrEdit.bind(this);
+    }
+
+    componentDidMount() {
+        this.props.fetchCards();
     }
 
     render() {

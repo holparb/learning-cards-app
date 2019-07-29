@@ -55,10 +55,10 @@ class AddEditCard extends React.Component {
         const { question } = this.state;
         const { answer } = this.state;
 
-        //id 0 means it's a new card
+        // id 0 means it's a new card
         if (id === "0" ) {
-            //generated id needs to be received to properly update the cards array in the store
-            //this.props.addCard({ question: question, answer: answer });
+            // generated id needs to be received to properly update the cards array in the store
+            // this.props.addCard({ question: question, answer: answer });
         }
         else {
             this.props.editCard({ _id: id, question: question, answer: answer });
