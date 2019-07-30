@@ -1,15 +1,24 @@
 import React from "react";
 import { connect } from "react-redux";
+import { bindActionCreators } from 'redux';
 import { View,  StyleSheet } from "react-native";
 import { Input, Button } from "react-native-elements";
-import { addCard, editCard } from "../redux/actions";
+import { uploadCard, updateCard } from "../redux/thunks/cardAsync";
 
-const mapDispatchToProps = dispatch => {
-    return { 
-        addCard: card => dispatch(addCard(card)),
-        editCard: card => dispatch(editCard(card)) 
-    };
+const mapStateToProps = state => {
+    return {
+        isAnswerInvalid: state.isAnswerInvalid,
+        uploadError: uploadError
+    }
 }
+
+const mapDispatchToProps = dispatch => bindActionCreators (
+    {
+        uploadCard: uploadCard,
+        updateCard: updateCard
+    },
+    dispatch
+);
 
 class AddEditCard extends React.Component {
 
@@ -67,7 +76,7 @@ class AddEditCard extends React.Component {
     }
 }
 
-const AddOrEditCard = connect(null, mapDispatchToProps) (AddEditCard);
+const AddOrEditCard = connect(mapStateToProps, mapDispatchToProps) (AddEditCard);
 
 export default AddOrEditCard;
 

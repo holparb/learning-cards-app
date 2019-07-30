@@ -7,7 +7,11 @@ export default class FlippingCard extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state = {isQuestion: Math.random() >= 0.5};
+        this.state = {isQuestion: false};
+    }
+
+    componentDidMount() {
+        this.setState({isQuestion: Math.random() >= 0.5});
     }
 
     render() {

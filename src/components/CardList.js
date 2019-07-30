@@ -3,10 +3,12 @@ import { StyleSheet, FlatList, ScrollView, View, Text, TouchableOpacity } from "
 import { connect } from "react-redux";
 import { bindActionCreators } from 'redux';
 import FlippingCard from "./FlippingCard";
-import { fetchCards } from "../redux/actions";
+import { fetchCards } from "../redux/thunks/cardAsync";
 
 const mapStateToProps = state => {
-    return { cards: state.cards };
+    return { 
+        cards: state.cards 
+    };
 }
 
 const mapDispatchToProps = dispatch => bindActionCreators (
@@ -14,7 +16,7 @@ const mapDispatchToProps = dispatch => bindActionCreators (
         fetchCards: fetchCards
     },
     dispatch
-)
+);
 
 class List extends React.Component {
     

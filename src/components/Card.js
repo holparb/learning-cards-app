@@ -1,12 +1,23 @@
 import React from "react";
 import { connect } from "react-redux";
+import { bindActionCreators } from 'redux';
 import { StyleSheet, View, TouchableOpacity, Text } from "react-native";
 import { Button } from "react-native-elements";
-import { deleteCard } from "../redux/actions";
+import { deleteCard } from "../redux/thunks/cardAsync";
 
-const mapDispatchToProps = dispatch => {
-    return { deleteCard: card => dispatch(deleteCard(card)) };
+const mapStateToProps = state => {
+    return {
+        deleteError: state.deleteError
+    }
 }
+
+const mapDispatchToProps = dispatch => bindActionCreators (
+    { 
+        deleteCard: deleteCard 
+    },
+    dispatch
+)
+
 
 class CardElement extends React.Component {
 
@@ -41,7 +52,7 @@ class CardElement extends React.Component {
     }
 }
 
-const Card = connect(null, mapDispatchToProps) (CardElement);
+const Card = connect(mapStateToProps, mapDispatchToProps) (CardElement);
 
 export default Card;
 
