@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, FlatList, ScrollView, View, Text, TouchableOpacity } from "react-native";
+import { StyleSheet, FlatList, ScrollView, View, Text, TouchableOpacity, ActivityIndicator } from "react-native";
 import { connect } from "react-redux";
 import { bindActionCreators } from 'redux';
 import FlippingCard from "./FlippingCard";
@@ -7,7 +7,8 @@ import { fetchCards } from "../redux/thunks/cardAsync";
 
 const mapStateToProps = state => {
     return { 
-        cards: state.cards 
+        cards: state.cards, 
+        isFetching: state.isFetching
     };
 }
 
@@ -31,25 +32,33 @@ class List extends React.Component {
     }
 
     render() {
+        if(this.props.isFetching) {
+            return (
+                <View style={styles.container}>
+                    <ActivityIndicator size="large" color="#0000ff" />
+                </View>
+            )
+        }
         return (
-            <ScrollView>
-                <FlatList
-                    style={styles.list}
-                    data={this.props.cards}
-                    keyExtractor={item => item._id}
-                    renderItem={({item}) =>
-                        <FlippingCard 
-                            /* Pass card and onEdit props down to Card so the edit button click can be handled */
-                            card={item}
-                            onEdit={this.goToAddOrEdit}
-                        />
-                    }
-                />
+            <View style={styles.container}>
+                <ScrollView>
+                    <FlatList
+                        style={styles.list}
+                        data={this.props.cards}
+                        keyExtractor={item => item._id}
+                        renderItem={({item}) =>
+                            <FlippingCard 
+                                /* Pass card and onEdit props down to Card so the edit button click can be handled */
+                                card={item}
+                                onEdit={this.goToAddOrEdit}
+                            />
+                        }
+                    />
+                </ScrollView>
                 <TouchableOpacity style={styles.fab} onPress={this.onCreatePress}>
-                    <Text style={styles.fabIcon}>+</Text>
+                        <Text style={styles.fabIcon}>+</Text>
                 </TouchableOpacity>
-            </ScrollView>
-            
+            </View>
         );
     }
 
@@ -63,6 +72,11 @@ class List extends React.Component {
 }
 
 const styles = StyleSheet.create({
+    container: {
+        justifyContent: 'center',
+        flex:1,
+        margin: 10
+    },
     list: {
         flex: 1,
         paddingTop: 15,

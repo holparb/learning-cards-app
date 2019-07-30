@@ -6,12 +6,12 @@ import * as CardRest from "../../network/cardRest";
 export function fetchCards() {
     return dispatch => {
         dispatch(CardActions.beginFetch());
-        console.log("starting fetch...");
         CardRest.getCards()
         .then(res => res.json())
         .then(res => {
             if(res.error) {
                 dispatch(CardActions.fetchFailure());
+                return false;
             }
             dispatch(CardActions.fetchSuccess(res));
             return res.products;
@@ -28,18 +28,18 @@ export function uploadCard(card) {
         .then(res => res.json())
         .then(res => {
             if(!res.isSuccessful) {
-                if(error === "INVALID_ANSWER_LENGTH") {
-                    dispatch(CardActions.invalidAnswer());
+                if(res.error === "INVALID_ANSWER_LENGTH") {
+                    dispatch(CardActions.invalidAnswer(true));
                 }
                 else {
                     dispatch(CardActions.uploadFailure());
                 }
-                return;
+                return false;
             }
             // construct new card object - get the id from the upload response
             let newCard = { _id: res.id, question: card.question, answer: card.answer }
-            console.log("Card added", newCard);
             dispatch(CardActions.uploadSuccess(newCard));
+            return true;
         })
         .catch(error => {
             console.log("POST error:", error);
@@ -54,10 +54,10 @@ export function updateCard(card) {
         .then(res => {
             if(!res.isSuccessful) {
                 dispatch(CardActions.updateFailure());
-                return;
+                return false;
             }
-            console.log("Card updated", card);
             dispatch(CardActions.updateSuccess(card));
+            return true;
         })
         .catch(error => {
             console.log("PATCH error:", error);
@@ -72,10 +72,10 @@ export function deleteCard(card) {
         .then(res => {
             if(!res.isSuccessful) {
                 dispatch(CardActions.deleteFailure());
-                return;
+                return false;
             }
-            console.log("Card deleted", card);
             dispatch(CardActions.deleteSuccess(card));
+            return true;
         })
         .catch(error => {
             console.log("PATCH error:", error);

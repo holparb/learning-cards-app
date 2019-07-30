@@ -58,7 +58,7 @@ export default Card;
 
 const styles = StyleSheet.create({
     card: {
-        backgroundColor: "#4C4CFF",   
+        backgroundColor: "#7575FF",   
         flex: 1,
         borderRadius: 5,
         shadowColor: 'rgba(0,0,0,0.5)',

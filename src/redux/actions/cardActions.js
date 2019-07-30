@@ -34,9 +34,10 @@ export function uploadFailure() {
     }
 }
 
-export function invalidAnswer() {
+export function invalidAnswer(value) {
     return {
-        type: ActionTypes.INVALID_ANSWER
+        type: ActionTypes.INVALID_ANSWER,
+        payload: value
     }
 }
 

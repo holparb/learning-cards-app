@@ -6,7 +6,7 @@ const initialState = {
     isAnswerInvalid: false,
     fetchError: false,
     uploadError: false,
-    deleteError: false
+    deleteError: false,
 };
 
 function rootReducer(state = initialState, action) {
@@ -48,7 +48,7 @@ function rootReducer(state = initialState, action) {
             
         case ActionTypes.INVALID_ANSWER:
             return Object.assign({}, state, {
-                isAnswerInvalid: true,
+                isAnswerInvalid: action.payload,
                 uploadError: false     
             });
 
@@ -74,7 +74,7 @@ function rootReducer(state = initialState, action) {
             return Object.assign({}, state, {
                 deleteError: true
             });
-
+         
         default: return state;
     }
 }
