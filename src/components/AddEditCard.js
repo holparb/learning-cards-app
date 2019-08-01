@@ -5,11 +5,13 @@ import { View,  StyleSheet } from "react-native";
 import { Input, Button } from "react-native-elements";
 import { uploadCard, updateCard } from "../redux/thunks/cardAsync";
 import { invalidAnswer } from "../redux/actions/cardActions";
+import Toast from 'react-native-root-toast';
 
 const mapStateToProps = state => {
     return {
         isAnswerInvalid: state.isAnswerInvalid,
-        uploadError: state.uploadError,
+        toastVisible: state.toastVisible,
+        toastMessage: state.toastMessage,
     }
 }
 
@@ -64,6 +66,15 @@ class AddEditCard extends React.Component {
                         <Button title="Submit" type="outline" buttonStyle={styles.button} onPress={() => this.onSubmit(id)}/>
                     </View>
                 </View>
+                <Toast
+                    visible={this.props.toastVisible}
+                    position={50}
+                    shadow={false}
+                    animation={false}
+                    hideOnPress={true}
+                >
+                    {this.props.toastMessage}
+                </Toast>
             </View>
         );
     }

@@ -8,7 +8,9 @@ import { fetchCards } from "../redux/thunks/cardAsync";
 const mapStateToProps = state => {
     return { 
         cards: state.cards, 
-        isFetching: state.isFetching
+        isFetching: state.isFetching, 
+        toastVisible: state.toastVisible,
+        toastMessage: state.toastMessage
     };
 }
 
@@ -58,6 +60,15 @@ class List extends React.Component {
                 <TouchableOpacity style={styles.fab} onPress={this.onCreatePress}>
                         <Text style={styles.fabIcon}>+</Text>
                 </TouchableOpacity>
+                <Toast
+                    visible={this.props.toastVisible}
+                    position={50}
+                    shadow={false}
+                    animation={false}
+                    hideOnPress={true}
+                >
+                    {this.props.toastMessage}
+                </Toast>
             </View>
         );
     }
