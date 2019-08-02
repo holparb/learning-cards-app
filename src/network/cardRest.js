@@ -11,8 +11,8 @@ export function postCard(card) {
     return fetch(SERVER_ADDRESS + "/cards/add", {
         method: "POST",
         headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json',
+            "Accept": "application/json",
+            "Content-Type": "application/json",
         },
         body: JSON.stringify(card)
     });
@@ -28,6 +28,7 @@ export function patchCard(card) {
     return fetch(SERVER_ADDRESS + "/cards/update/" + card._id, { 
         method: "PATCH",
         headers: {
+            "Accept": "application/json",
             "Content-Type": "application/json"
         },
         body: JSON.stringify(card)

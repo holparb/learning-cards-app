@@ -5,12 +5,6 @@ import { StyleSheet, View, TouchableOpacity, Text } from "react-native";
 import { Button } from "react-native-elements";
 import { deleteCard } from "../redux/thunks/cardAsync";
 
-const mapStateToProps = state => {
-    return {
-        deleteError: state.deleteError
-    }
-}
-
 const mapDispatchToProps = dispatch => bindActionCreators (
     { 
         deleteCard: deleteCard 
@@ -52,7 +46,7 @@ class CardElement extends React.Component {
     }
 }
 
-const Card = connect(mapStateToProps, mapDispatchToProps) (CardElement);
+const Card = connect(null, mapDispatchToProps) (CardElement);
 
 export default Card;
 

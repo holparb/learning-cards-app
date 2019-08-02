@@ -28,9 +28,9 @@ export function uploadSuccess(card) {
     }
 }
 
-export function uploadFailure() {
+export function uploadOrUpdateBegin() {
     return {
-        type: ActionTypes.UPLOAD_FAILURE
+        type: ActionTypes.UPLOAD_OR_UPDATE_BEGIN
     }
 }
 
@@ -48,12 +48,6 @@ export function updateSuccess(card) {
     }
 }
 
-export function updateFailure() {
-    return {
-        type: ActionTypes.UPDATE_FAILURE
-    }
-}
-
 export function deleteSuccess(card) {
     return {
         type: ActionTypes.DELETE_SUCCESS,
@@ -61,8 +55,15 @@ export function deleteSuccess(card) {
     }
 } 
 
-export function deleteFailure() {
+export function showToast(message) {
     return {
-        type: ActionTypes.DELETE_FAILURE
+        type: ActionTypes.SHOW_TOAST,
+        payload: message
+    }
+}
+
+export function hideToast() {
+    return {
+        type: ActionTypes.HIDE_TOAST
     }
 }

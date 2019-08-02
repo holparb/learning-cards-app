@@ -4,11 +4,14 @@ import { connect } from "react-redux";
 import { bindActionCreators } from 'redux';
 import FlippingCard from "./FlippingCard";
 import { fetchCards } from "../redux/thunks/cardAsync";
+import Toast from 'react-native-root-toast';
 
 const mapStateToProps = state => {
     return { 
         cards: state.cards, 
-        isFetching: state.isFetching
+        isFetching: state.isFetching, 
+        toastVisible: state.toastVisible,
+        toastMessage: state.toastMessage
     };
 }
 
@@ -58,6 +61,15 @@ class List extends React.Component {
                 <TouchableOpacity style={styles.fab} onPress={this.onCreatePress}>
                         <Text style={styles.fabIcon}>+</Text>
                 </TouchableOpacity>
+                <Toast
+                    visible={this.props.toastVisible}
+                    position={Toast.positions.BOTTOM}
+                    shadow={false}
+                    animation={false}
+                    hideOnPress={true}
+                >
+                    {this.props.toastMessage}
+                </Toast>
             </View>
         );
     }

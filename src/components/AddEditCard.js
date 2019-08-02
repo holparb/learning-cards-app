@@ -5,11 +5,14 @@ import { View,  StyleSheet } from "react-native";
 import { Input, Button } from "react-native-elements";
 import { uploadCard, updateCard } from "../redux/thunks/cardAsync";
 import { invalidAnswer } from "../redux/actions/cardActions";
+import Toast from 'react-native-root-toast';
 
 const mapStateToProps = state => {
     return {
         isAnswerInvalid: state.isAnswerInvalid,
-        uploadError: state.uploadError,
+        uploadSuccess: state.uploadSuccess,
+        toastVisible: state.toastVisible,
+        toastMessage: state.toastMessage,
     }
 }
 
@@ -64,12 +67,22 @@ class AddEditCard extends React.Component {
                         <Button title="Submit" type="outline" buttonStyle={styles.button} onPress={() => this.onSubmit(id)}/>
                     </View>
                 </View>
+                <Toast
+                    visible={this.props.toastVisible}
+                    position={Toast.positions.BOTTOM}
+                    shadow={false}
+                    animation={false}
+                    hideOnPress={true}
+                >
+                    {this.props.toastMessage}
+                </Toast>
             </View>
         );
     }
 
     isQuestionValid() {
-        if (Object.keys(this.state.question).length === 0) {
+        console.log("AddEdit state", this.state);
+        if (this.state.question === undefined) {
             return false;
         }
         const {question} = this.state;
@@ -84,7 +97,13 @@ class AddEditCard extends React.Component {
         if (id === "0") {
             if(this.isQuestionValid()) {
                 this.props.uploadCard({ question: question, answer: answer });
-                this.setState({question: "", answer: "", isQuestionInvalid: false});
+                // if upload was successful reset the text fields and the invalid question flag, otherwise only the flag
+                if(this.props.uploadSuccess) {
+                    this.setState({question: "", answer: "", isQuestionInvalid: false});
+                } 
+                else {
+                    this.setState({isQuestionInvalid: false});
+                }
             }
             else {
                 this.setState({isQuestionInvalid: true});
@@ -92,9 +111,7 @@ class AddEditCard extends React.Component {
             
         }
         else {
-            if(this.props.updateCard({ _id: id, question: question, answer: answer })) {
-                this.props.navigation.navigate("List");
-            }
+            this.props.updateCard({ _id: id, question: question, answer: answer });
         }
     }
 }
