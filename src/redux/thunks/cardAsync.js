@@ -4,7 +4,7 @@ import * as CardRest from "../../network/cardRest";
 // helper function to send messages using Toast for both iOS and Android
 function sendToastMessage(message, dispatch) {
     dispatch(CardActions.showToast(message));
-    setTimeout(dispatch(CardActions.hideToast()), 2500);
+    setTimeout(() => dispatch(CardActions.hideToast()), 2500);
 }
 
 // async/await could also be used here instead of Promise callbacks
@@ -26,6 +26,7 @@ export function fetchCards() {
         })
         .catch(error => {
             console.log("GET error:", error);
+            dispatch(CardActions.fetchFailure());
             sendToastMessage("Unable to fetch cards!", dispatch);
         })
     }

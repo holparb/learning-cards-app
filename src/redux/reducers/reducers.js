@@ -4,6 +4,7 @@ const initialState = {
     cards: [],
     isFetching: false,
     isAnswerInvalid: false,
+    uploadSuccess: false,
     toastVisible: false,
     toastMessage: ""
 };
@@ -23,12 +24,19 @@ function rootReducer(state = initialState, action) {
 
         case ActionTypes.FETCH_FAILURE:
             return Object.assign({}, state, {
-                isFetching: false  
+                isFetching: false,
+                //Set some default cards for testing offline
+                cards: [
+                    {_id: "01", question: "What is the highest building in New York?", answer: "Empire State Building"},
+                    {_id: "02", question: "What color is the sky?", answer: "Blue"},
+                    {_id: "03", question: "What is the first letter in the ABC?", answer: "A"},
+                ]  
             });     
 
         case ActionTypes.UPLOAD_OR_UPDATE_BEGIN:
             return Object.assign({}, state, {
-                isAnswerInvalid: false  
+                isAnswerInvalid: false,
+                uploadSuccess: false
             });
 
         case ActionTypes.UPLOAD_SUCCESS:
@@ -36,7 +44,8 @@ function rootReducer(state = initialState, action) {
                 cards: [
                     ...state.cards,
                     action.payload
-                ]
+                ],
+                uploadSuccess: true
             });
             
         case ActionTypes.INVALID_ANSWER:

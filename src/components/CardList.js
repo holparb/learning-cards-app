@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import { bindActionCreators } from 'redux';
 import FlippingCard from "./FlippingCard";
 import { fetchCards } from "../redux/thunks/cardAsync";
+import Toast from 'react-native-root-toast';
 
 const mapStateToProps = state => {
     return { 
@@ -62,7 +63,7 @@ class List extends React.Component {
                 </TouchableOpacity>
                 <Toast
                     visible={this.props.toastVisible}
-                    position={50}
+                    position={Toast.positions.BOTTOM}
                     shadow={false}
                     animation={false}
                     hideOnPress={true}
